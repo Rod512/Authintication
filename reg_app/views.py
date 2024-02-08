@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import regForm
+from .forms import regForm , loginForm
 
 def home(request):
     if request.method == 'POST':
@@ -19,7 +19,19 @@ def home(request):
             
     else:
         fm = regForm()
-    return render(request, 'reg_app/index.html', {'form':fm} )
+    return render(request, 'reg_app/index.html', {'form': fm} )
 
 def login(request):
-    return render(request, 'reg_app/login.html')
+    if request.method == 'POST':
+        loginfm = loginForm(request.POST)
+        if loginfm.is_valid():
+            email = loginfm.cleaned_data['email']
+            password = loginfm.cleaned_data['password']
+
+            if regForm.email == email and regForm.password == password:
+                print('login success')
+            else:
+                print('enter valid mail or pass')
+
+    loginfm = loginForm()
+    return render(request, 'reg_app/login.html', {'form': loginfm})

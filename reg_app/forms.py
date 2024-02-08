@@ -13,6 +13,11 @@ class regForm(forms.Form):
         
         if valpwd != rvalpwd:
             raise forms.ValidationError("password dosen't match")
+        
+class loginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget= forms.PasswordInput)
+    
 
 
 

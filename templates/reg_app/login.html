@@ -1,4 +1,11 @@
 {% extends 'reg_app/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
-<h1>Log in page!</h1>
+<form action="" method = "POST">
+    {% csrf_token %}
+    <div class="jumbotron">
+        {% crispy form %}
+        <input type="submit" class="btn btn-secondary">
+    </div>
+</form>
 {% endblock content %}
