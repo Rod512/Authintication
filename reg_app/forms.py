@@ -15,8 +15,8 @@ class regForm(forms.Form):
             raise forms.ValidationError("password dosen't match")
         
 class loginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget= forms.PasswordInput)
+    login_email = forms.EmailField(label='email')
+    login_pass = forms.CharField(widget= forms.PasswordInput, label='password')
     
 
 

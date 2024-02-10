@@ -1,7 +1,7 @@
 from django.contrib import admin
-from reg_app.models import user
+from reg_app.models import User
 
-@admin.register(user)
+@admin.register(User)
 class userAdmin(admin.ModelAdmin):
     list_display =('name','email','password','retype_pass')
     

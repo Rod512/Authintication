@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate,login 
+from django.contrib.auth import login 
 from .forms import regForm , loginForm
-from .models import user
+from .models import User
 
 def home(request):
     if request.method == 'POST':
@@ -12,7 +12,7 @@ def home(request):
         em = fm.cleaned_data['email']
         pw = fm.cleaned_data['password']
         rpaw = fm.cleaned_data['retype_pass']
-        reg = user(name = nm, email = em, password = pw, retype_pass = rpaw )
+        reg = User(name = nm, email = em, password = pw, retype_pass = rpaw )
         reg.save()
         return HttpResponseRedirect('/login/auth')  
         
@@ -21,21 +21,25 @@ def home(request):
      fm = regForm()
     return render(request, 'reg_app/index.html', {'form': fm} )
 
-def login(request):
+def user_login(request):
     if request.method == 'POST':
         loginfm = loginForm(request.POST)
         if loginfm.is_valid():
-            email = loginfm.cleaned_data['email']
-            password = loginfm.cleaned_data['password']
-            user_data = authenticate(request, email = email, password = password)
-            if user_data is not None:
-               login(request, user_data)
-               return HttpResponseRedirect('/home/home_page')
-            else:
-               return HttpResponse('Problem')
+            email = request.POST.get('login_email')
+            password = request.POST.get('login_pass')
+            print(email,password)
+            user = User.objects.get(email= email, password = password)
+            print(user)
+            return HttpResponseRedirect('/home/home_page')
+        else:
+           HttpResponseRedirect('/login/auth')
+            
                
     loginfm = loginForm()
     return render(request, 'reg_app/login.html', {'form': loginfm})
+
+
+   
 
 
 def homepage(request):
